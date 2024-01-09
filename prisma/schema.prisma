@@ -11,11 +11,10 @@ datasource db {
 }
 
 model Product {
-  id        Int    @id @default(autoincrement())
-  name      String @unique
-  nutrients Json @default("{}") /// per 100g example json {"calories":0, "fat": 0, "carbs":0, "protein": 0}
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  ean       String   @unique @default("")
+  nutrients Json     @default("{}") /// per 100g example json {"calories":0, "fat": 0, "carbs":0, "protein": 0}
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
