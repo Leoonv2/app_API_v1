@@ -1,11 +1,13 @@
-import { Prisma, PrismaClient, Product } from "@prisma/client";
-import { prisma } from "..";
+import { prisma } from "../index";
+import { Product } from "@prisma/client";
+
 
 export const getProduct = async (ean: string): Promise<Product | null> => {
-    
-    return await prisma.product.findUnique({
+    return await prisma.product.findFirst({
         where: {
-            ean: ean,
+            ean: {
+                contains: ean,
+            },
         },
     });
 }

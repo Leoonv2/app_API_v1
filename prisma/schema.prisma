@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,18 +8,27 @@ datasource db {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  ean       String   @unique 
-  nutrients Json     @default("{}") /// per 100g example json {"calories":0, "fat": 0, "carbs":0, "protein": 0}
-  Category Category[] 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id Int @id @default(autoincrement())
+
+  brand String?
+  name  String  @unique
+
+  ean String @unique
+
+  nutrients Json    @default("{}") /// per 100g example json {"calories":0, "fat": 0, "carbs":0, "protein": 0, "sugar": 0, "salt": 0}
+  image     String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Category Category[] @relation("CategoryToProduct")
 }
 
 model Category {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  products Product[]
-  updatedAt DateTime @updatedAt
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  updatedAt DateTime? @updatedAt
+
+  products Product[] @relation("CategoryToProduct")
 }
