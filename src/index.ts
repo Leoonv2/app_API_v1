@@ -23,7 +23,8 @@ async function init() {
     });
   }
 
-  const knoppers = await prisma.product.upsert({ // just add a product to the database to test stuff
+  const knoppers = await prisma.product.upsert({
+    // just add a product to the database to test stuff
     where: { ean: "0000040144382" },
     update: {
       name: "Knoppers",
@@ -35,14 +36,12 @@ async function init() {
         },
       },
       nutrients: {
-        update: {
-          calories: 548,
-          fat: 33.2,
-          protein: 9.2,
-          carbs: 51.3,
-          sugar: 34.6,
-          salt: 0.56,
-        },
+        calories: 548,
+        fat: 33.2,
+        protein: 9.2,
+        carbs: 51.3,
+        sugar: 34.6,
+        salt: 0.56,
       },
     },
     create: {
@@ -55,13 +54,15 @@ async function init() {
         },
       },
       nutrients: {
-        create: {
-          calories: 548,
-          fat: 33.2,
-          protein: 9.2,
-          carbs: 51.3,
-          sugar: 34.6,
-          salt: 0.56,
+        toJSON() {
+          return {
+            calories: 548,
+            fat: 33.2,
+            protein: 9.2,
+            carbs: 51.3,
+            sugar: 34.6,
+            salt: 0.56,
+          };
         },
       },
     },
@@ -76,10 +77,14 @@ async function init() {
   app.use("/api", router);
 
   app.listen(port, () => {
-    console.log('\x1b[35m%s\x1b[0m','\n         | Port:', port);
+    console.log("\x1b[35m%s\x1b[0m", "\n         | Port:", port);
     router.stack.forEach((r) => {
       if (r.route && r.route.path) {
-        console.log('\x1b[35m%s\x1b[0m', '         | Loaded Endpoint:', r.route.path);
+        console.log(
+          "\x1b[35m%s\x1b[0m",
+          "         | Loaded Endpoint:",
+          r.route.path
+        );
       }
     });
   });
