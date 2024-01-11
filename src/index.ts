@@ -83,7 +83,7 @@ async function init() {
         console.log(
           "\x1b[35m%s\x1b[0m",
           "         | Loaded Endpoint:",
-          r.route.path
+          r.route.path, r.route.methods
         );
       }
     });

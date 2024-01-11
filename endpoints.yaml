@@ -1,0 +1,29 @@
+!/api/registerProduct
+- method: POST
+- body: {
+    "id": 7,
+    "brand": "Storck",
+    "name": "Knoppers",
+    "ean": "0000040144382",
+    "nutrients": {
+        "fat": 33.2,
+        "salt": 0.56,
+        "carbs": 51.3,
+        "sugar": 34.6,
+        "protein": 9.2,
+        "calories": 548
+    },
+    "image": null,
+    "createdAt": "2024-01-11T10:27:35.079Z",
+    "updatedAt": "2024-01-11T10:31:03.913Z"
+}
+
+!/api/product
+- method: GET
+- body : {
+    "ean": "40144382"
+}
+
+!/api/getAllProducts
+- method: GET
+

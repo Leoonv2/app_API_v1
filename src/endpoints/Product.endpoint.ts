@@ -15,7 +15,7 @@ router.get("/getAllProducts", async (req: Request, res: Response) => {
 });
 
 router.get("/product", async (req: Request, res: Response) => {
-  const { ean } = req.query;
+  const ean  = req.body.ean;
   if (!ean) return res.status(400).json({ error: "id is required" });
   const product = await getProduct(ean as string);
 
@@ -24,7 +24,7 @@ router.get("/product", async (req: Request, res: Response) => {
 
 router.post("/registerProduct", async (req: Request, res: Response) => {
   const data = req.body;
-  if (!data) return res.status(400).json({ error: "data is required" });
+  if (data == null) return res.status(400).json({ error: "data is required" });
 
   console.log(data);
 
