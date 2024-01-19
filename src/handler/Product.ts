@@ -27,7 +27,6 @@ export const registerProduct = async (ean:any, data: any): Promise<Product | nul
     }).then((response) => response.json()).then((data: any): void => {
         console.log(data.status_verbose)
         if (data.status_verbose == "product found") {
-            console.log(data.product);
             console.log(data.product.nutriments.carbohydrates_100g);
         }
     });
