@@ -16,21 +16,39 @@ export const getProduct = async (ean: string): Promise<Product | null> => {
 }
 
 export const registerProduct = async (ean:any, data: any): Promise<Product | null> => {
-    // if (!data) return null;
     if (!ean) return null;
-    console.log(ean)
-    fetch("https://world.openfoodfacts.org/api/v0/product/" + ean, {
+    
+    await fetch("https://world.openfoodfacts.org/api/v0/product/" + ean, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-    }).then((response) => response.json()).then((data: any): void => {
+    }).then((response) => response.json()).then(async (data: any): Promise<void> => {
         console.log(data.status_verbose)
         if (data.status_verbose == "product found") {
-            console.log(data.product.nutriments.carbohydrates_100g);
+            const nutrients = data.product.nutriments;
+            const image = data.product.image_url;
+            const macros = {
+                calories: nutrients.energy,
+                fat: nutrients.fat,
+                protein: nutrients.proteins,
+                carbs: nutrients.carbohydrates,
+                sugar: nutrients.sugars,
+                salt: nutrients.salt,
+            };
+            
+            var prod = await prisma.product.create({
+                data: {
+                    name: data.product.product_name_de,
+                    brand: data.product.brands,
+                    ean: ean,
+                    nutrients: macros,
+                    image: image,
+                },
+            });
+            
         }
     });
-    
     return null;
 
     // return await prisma.product.create({
