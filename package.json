@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "@prisma/client": "^5.7.1",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "cross-fetch": "^4.0.0",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -22,7 +24,7 @@
     "db": "prisma generate && prisma migrate dev --name ...",
     "db:push": "prisma migrate deploy && prisma generate",
     "start": "ts-node-dev src/index.ts",
-    "studio": "prisma studio",
+    "studio": "prisma studio --browser none",
     "dev:db": "npm run db && concurrently \"npm start\" \"npm run studio\"",
     "dev": "concurrently \"npm start\" \"npm run studio\""
   },
