@@ -4,6 +4,7 @@ import fetch from "cross-fetch";
 
 export const getProduct = async (ean: string): Promise<Product | null> => {
     if (!ean) return null;
+    console.log(ean);
     var data =  await prisma.product.findFirst({
         where: {
             ean: {
@@ -17,7 +18,6 @@ export const getProduct = async (ean: string): Promise<Product | null> => {
 
 export const registerProduct = async (ean:any, data: any): Promise<Product | null> => {
     if (!ean) return null;
-    
     await fetch("https://world.openfoodfacts.org/api/v0/product/" + ean, {
         method: "GET",
         headers: {
@@ -36,11 +36,13 @@ export const registerProduct = async (ean:any, data: any): Promise<Product | nul
                 sugar: nutrients.sugars,
                 salt: nutrients.salt,
             };
-            
+            const unit = (data.product.serving_size.replace(/[0-9]/g, ''))
+
             var prod = await prisma.product.create({
                 data: {
                     name: data.product.product_name_de,
                     brand: data.product.brands,
+                    unit: unit,
                     ean: ean,
                     nutrients: macros,
                     image: image,
@@ -50,29 +52,4 @@ export const registerProduct = async (ean:any, data: any): Promise<Product | nul
         }
     });
     return null;
-
-    // return await prisma.product.create({
-    //     data: {
-    //         name: data.name,
-    //         brand: data.brand,
-    //         ean: data.ean,
-    //         Category: {
-    //             connect: {
-    //                 name: data.category,
-    //             },
-    //         },
-    //         nutrients: {
-    //             toJSON() {
-    //                 return {
-    //                     calories: data.nutrients.calories,
-    //                     fat: data.nutrients.fat,
-    //                     protein: data.nutrients.protein,
-    //                     carbs: data.nutrients.carbs,
-    //                     sugar: data.nutrients.sugar,
-    //                     salt: data.nutrients.salt,
-    //                 };
-    //             },
-    //         },
-    //     },
-    // });
 }
